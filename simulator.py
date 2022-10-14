@@ -29,3 +29,4 @@ probablility = [[1, 0, 0, 0, 1, 0.4, 0, 0, 0, 0, 0.1, 0, 1, 1, 1],
 
 #make input matrix
 AA = make_input_org(data_length, weights, probablility, 1)
+print(AA)
