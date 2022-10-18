@@ -1,10 +1,6 @@
 import numpy as np
 import math
 
-#data length, probability
-#array of data length
-#probablilty per query and attribute -> 2way array
-#output : AA matrix
 def make_input_org(data_length, weights, probability, a) :
     """
     make input matrix for BEA
