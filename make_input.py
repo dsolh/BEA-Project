@@ -1,4 +1,5 @@
 import numpy as np
+import math
 
 #data length, probability
 #array of data length
@@ -17,7 +18,7 @@ def make_input_org(data_length, weights, probability, a) :
         data_length (array): data lengths of each attributes
         weights (array): importance of each queries (e.i. excess frequency, priority)
         probability (array): probability of attribute values required by per queries
-        a (int): manipulate similarity by the power a
+        a (flaot): manipulate similarity by the power a
     """
     
     probability = np.array(probability)
@@ -41,10 +42,14 @@ def make_input_org(data_length, weights, probability, a) :
                     c_ijt = 0
                 else :
                     c_ijt = (l_i*p_it + l_j*p_jt) / ((l_i+l_j) * max(p_it, p_jt))
+                               
+                if c_ijt == 0 :
+                    s_ijt = 0
+                else :
+                    s_ijt = ((l_i + l_j) * (c_ijt**a)) / (l_i + l_j)
                 
-                if c_ijt != 0 :
-                    numerator += weights[t]*(c_ijt ** a)
-                    denominator += weights[t]*1
+                numerator += weights[t]*s_ijt
+                denominator += weights[t]*math.ceil(s_ijt)
             
             s_ij = round(numerator/denominator, 2)
             AA[i][j] = s_ij
@@ -67,7 +72,7 @@ if __name__ == "__main__" :
                 [0, 0, 0, 0, 1, 0, 0.07, 0, 0, 0, 0, 0.42, 0, 0, 0],
                 [0 ,0, 0, 0, 1, 0, 0.07, 0, 0, 0, 0, 0.42, 0, 0, 0],
                 [0, 0, 0, 0, 1, 0, 1, 0, 0, 0, 0, 0.42, 0, 0, 0],
-                [0, 1, 1, 0, 1, 0, 1, 0, 0, 0, 0, 1, 0, 0, 1],
+                [0, 1, 1, 0, 1, 0, 0, 1, 1, 0, 0, 1, 0, 0, 1],
                 [0 ,0, 1, 0, 1, 0.4, 0, 0, 0, 0, 0, 0.42, 0, 0, 0],
                 [0, 0, 1, 1, 1, 0.4, 0, 0, 0, 1, 0, 0.42, 0, 0, 0],
                 [0, 0.9, 1, 0.7, 1, 0.4, 0, 0.05, 0.02, 0.7, 0, 0.42, 0, 1, 0],
@@ -78,8 +83,6 @@ if __name__ == "__main__" :
                 [0, 0, 0, 0, 1, 1, 0, 0, 1, 0, 0, 0, 1, 0, 0],
                 [0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]]
     
-    #probablility = np.array(probablility)
-    #print(probablility.shape)
-    AA = make_input_org(data_length, weights, probablility, 1)
+    AA = make_input_org(data_length, weights, probablility, 2)
     print(*AA, sep='\n')
     
