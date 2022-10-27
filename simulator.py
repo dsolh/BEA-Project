@@ -1,5 +1,6 @@
-from make_input_org import make_input
-from BEA import bea
+from make_input import make_input_org
+from bea import BEA
+import sys
 
 #test input
 data_length = [6, 30, 9, 50, 7, 4, 1, 1, 6, 6, 6, 6, 5, 2, 2, 2, 2, 2, 1, 10, 12, 14]
@@ -16,7 +17,7 @@ probablility = [[1, 0, 0, 0, 1, 0.4, 0, 0, 0, 0, 0.1, 0, 1, 1, 1],
                 [0, 0, 0, 0, 1, 0, 0.07, 0, 0, 0, 0, 0.42, 0, 0, 0],
                 [0 ,0, 0, 0, 1, 0, 0.07, 0, 0, 0, 0, 0.42, 0, 0, 0],
                 [0, 0, 0, 0, 1, 0, 1, 0, 0, 0, 0, 0.42, 0, 0, 0],
-                [0, 1, 1, 0, 1, 0, 1, 0, 0, 0, 0, 1, 0, 0, 1],
+                [0, 1, 1, 0, 1, 0, 0, 1, 1, 0, 0, 1, 0, 0, 1],
                 [0 ,0, 1, 0, 1, 0.4, 0, 0, 0, 0, 0, 0.42, 0, 0, 0],
                 [0, 0, 1, 1, 1, 0.4, 0, 0, 0, 1, 0, 0.42, 0, 0, 0],
                 [0, 0.9, 1, 0.7, 1, 0.4, 0, 0.05, 0.02, 0.7, 0, 0.42, 0, 1, 0],
@@ -29,4 +30,21 @@ probablility = [[1, 0, 0, 0, 1, 0.4, 0, 0, 0, 0, 0.1, 0, 1, 1, 1],
 
 #make input matrix
 AA = make_input_org(data_length, weights, probablility, 1)
-print(AA)
+#print(AA)
+
+#run BEA
+rst, CA = BEA(AA)
+print(rst)
+#print(CA)
+
+with open("AA.txt", "w") as f :
+    for i in range(AA.shape[0]) :
+        for j in range(AA.shape[0]) :
+            f.write("%.2f\t"%AA[i][j])
+        f.write("\n")
+        
+with open("CA.txt", "w") as f :
+    for i in range(CA.shape[0]) :
+        for j in range(CA.shape[0]) :
+            f.write("%.2f\t"%CA[i][j])
+        f.write("\n")
