@@ -1,5 +1,38 @@
 import numpy as np
 import math
+import loadfile as lf
+
+def make_input_org2(usg, freq, acc):
+    """
+    _summary_
+    make input matrix for BEA
+    
+    '''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+    implimentation of 
+    Özsu, M. Tamer, and Patrick Valduriez. "Principles of distributed database systems." (1999).
+    '''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+
+    Args:
+        usg (array): usage matrix
+        freq (array): access frequency matrix
+        acc (array): access number matrix to attributes per quries
+    """
+    ## make AA matrix
+    att_n = usg.shape[1]
+    query_n = usg.shape[0]
+    site_n = freq.shape[0]
+    AA = np.zeros((att_n, att_n))
+    for i in range(att_n):
+        for j in range(i + 1) :
+            sum = 0
+            for q in range(query_n) :
+                if usg[q][i] == 1 and usg[q][j] == 1 :
+                    for s in range(site_n) :
+                        sum += freq[s][q] * acc[q]
+            AA[i][j] = sum
+            AA[j][i] = sum
+            
+    return AA
 
 def make_input_org(data_length, weights, probability, a) :
     """
@@ -53,7 +86,109 @@ def make_input_org(data_length, weights, probability, a) :
     
     return AA
 
+def make_input_modified(usg, dist, freq, w1, w2) :
+    """
+    _summary_
+    make input matrix for BEA
+    
+    '''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+    implimentation of 
+    Rahimi, Hossein, Fereshteh-Azadi Parand, and Davoud Riahi. 
+    "Hierarchical simultaneous vertical fragmentation and allocation using modified Bond Energy Algorithm in distributed databases." 
+    Applied computing and informatics 14.2 (2018): 127-133.
+    '''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+
+    Args:
+        usg (array): usage matrix
+        dist (array): distance matrix
+        freq(array): access frequency matrix
+        w1(float): the weight of n01 and n10
+        w2(float): the weight of n00
+    """
+    ## for convenient programming
+    usg = np.array(usg)
+    freq = np.array(freq)
+    dist = np.array(dist)
+    
+    ## define variables
+    query_n = freq.shape[1]
+    site_n = freq.shape[0]
+    att_n = usg.shape[1]
+    
+    ## make MQA
+    MQA = dist.dot(freq)
+    MQA = MQA * 0.001
+    print(MQA)
+    
+    ## make QS
+    q_sum = np.zeros(query_n)
+    for q in range(query_n) :
+        sum = 0
+        for s in range(site_n) :
+            sum += MQA[s][q]
+        q_sum[q] = sum
+    #print(Q_sum)
+    QS = q_sum.dot(usg)
+    #print(QS)
+    ## make AA
+    AA = np.zeros((att_n, att_n))
+    S = np.zeros((att_n, att_n))
+    for i in range(att_n) :
+        for j in range(i+1) :
+            n00 = 0
+            n11 = 0
+            n10 = 0
+            n01 = 0
+        
+            for q in range(query_n) :
+                if usg[q][i] == 1 and usg[q][j] == 1 :
+                    n11 += 1
+                elif usg[q][i] == 0 and usg[q][j] == 0 :
+                    n00 += 1
+                elif usg[q][i] == 0 and usg[q][j] == 1 :
+                    n01 += 1
+                else :
+                    n10 += 1
+            if (n01 == 0 and n10 > 0) or (n10 == 0 and n01 > 0) :
+                coef = (-1)*(n01 + n10) * w1
+            else :
+                coef = abs(n01 - n10) * w1
+            S[i][j] = (n11 + w2*n00) / (n11 + w2*n00 + coef)
+            S[j][i] = S[i][j]
+    
+    for i in range(att_n) :
+        AA[i] = S[i] * QS[i]
+    
+    #print(AA[0])
+    #print(S)
+    return S
+    
+
 if __name__ == "__main__" :
+    #load all needed data
+    att_list = lf.load_attr("./init/attributes.txt")
+    usg = lf.load_usg("./init/usg.txt")
+    freq = lf.load_freq("./init/freq.txt")
+    dist = lf.load_dist("./init/dist.txt")
+    acc = lf.load_acc("./init/acc.txt")
+    
+    ## make_input_org2
+    #AA = make_input_org2(usg, freq, acc)
+    
+    ## make_input_modified
+    make_input_modified(usg, dist, freq, 0.3, 0.5)
+    '''
+    usg = np.array(usg)
+    usg_t = np.transpose(usg)
+    test = usg_t.dot(usg)
+    with open("test.txt", "wt") as f:
+        for i in range(usg_t.shape[0]) :
+            for j in range(usg_t.shape[0]) :
+                f.write("{:<5}".format(test[i][j]))
+            f.write("\n")
+    '''
+    '''
+    ## make_input_org
     data_length = [6, 30, 9, 50, 7, 4, 1, 1, 6, 6, 6, 6, 5, 2, 2, 2, 2, 2, 1, 10, 12, 14]
     weights = [4, 2, 5, 9, 2, 12, 4, 2, 52, 12, 52, 1, 104, 24, 8]
     probablility = [[1, 0, 0, 0, 1, 0.4, 0, 0, 0, 0, 0.1, 0, 1, 1, 1],
@@ -81,4 +216,6 @@ if __name__ == "__main__" :
     
     AA = make_input_org(data_length, weights, probablility, 2)
     print(*AA, sep='\n')
+    '''
+    
     

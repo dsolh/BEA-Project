@@ -1,0 +1,5 @@
+s_acctbal:68879	s_comment:625695	p_mfgr:2800000	ps_supplycost:4713888	ps_availqty:3111645	s_phone:150000	s_address:249771	s_name:180000	l_shipdate:60012150	
+o_orderstatus:1500000	l_receiptdate:60012150	l_commitdate:60012150	o_orderpriority:12599829	l_shipinstruct:72006409	p_size:363703	p_brand:1600000	p_container:1514971	l_shipmode:25717034	
+p_name:6550221	l_quantity:28926835	l_partkey:32674193	l_extendedprice:47237224	l_discount:24004860	n_name:177	s_nationkey:15945	l_suppkey:23340582	
+o_orderdate:15000000	o_custkey:7889867	c_nationkey:239923	r_name:34	n_regionkey:25	p_type:4119946	o_comment:72770808	o_totalprice:12969447	
+l_returnflag:6001215	c_name:2700000	c_acctbal:1033561	c_phone:2250000	c_comment:10876099	c_address:3758056	o_shippriority:1500000	c_mktsegment:1349610	l_linestatus:6001215	l_tax:24004860	

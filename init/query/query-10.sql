@@ -8,8 +8,7 @@ select
 	c_acctbal,
 	n_name,
 	c_address,
-	c_phone,
-	c_comment
+	c_phone
 from
 	customer,
 	orders,

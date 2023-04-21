@@ -14,7 +14,6 @@ def mk_usg() :
         for line in f.readlines() :
             l = line.strip().split()
             att_list.append(l[1])
-    #print(att_list)
     
     ## create usage matrix
     usg = []
@@ -22,16 +21,6 @@ def mk_usg() :
     i = 0
     for file in query_file_list :
         with open("./init/query/%s"%file, "rt") as f :
-            '''
-            usg.append([])
-            for line in f.readlines() :
-                for att in att_list :
-                    print("att : %d\n"%line.find(att))
-                    if line.find(att) >= 0 :
-                        usg[i].append(1)
-                    else :
-                        usg[i].append(0)
-            '''
             query = f.read()
             usg.append([])
             for att in att_list :
@@ -41,21 +30,17 @@ def mk_usg() :
                     usg[i].append(0)
             i += 1
     
-    ## extract matrix to file
+    ## store matrix as a file
     with open("./init/usg.txt", "wt") as f :
         f.write("     ")
         for att in att_list :
-            #f.write("%s\t"%att)
             f.write("{:<20}".format(att.lower()))
         f.write("\n")
         
         i = 1
         for u in usg :
-            #f.write("query-%d\t\t\t"%i)
-            #s = "query-%d"%(i)
             f.write("{:<5}".format(i))
             for v in u :
-                #f.write("%d\t\t\t"%v)
                 f.write("{:<20}".format(v))
             f.write("\n")
             i += 1

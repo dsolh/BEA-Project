@@ -8,9 +8,9 @@ def BEA(AA) :
     """
     AA = np.array(AA)
     n = AA.shape[0] #number of attributes
-    rst = [0] #initialize reordering result with attribute 0th
+    rst = [0, 1] #initialize reordering result with attribute 0th
     
-    for att in range(1,n):
+    for att in range(2,n):
         pos = len(rst) #max position
         conts = np.zeros((pos+1,)) #contributions per each position
              

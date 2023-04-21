@@ -1,0 +1,5 @@
+s_acctbal:16	s_comment:101	p_mfgr:25	ps_supplycost:16	ps_availqty:4	o_orderstatus:1	l_receiptdate:3	l_commitdate:3	o_orderpriority:15	l_tax:16	l_linestatus:1	
+l_shipinstruct:25	p_size:4	p_brand:10	p_container:10	l_shipmode:10	p_name:55	l_quantity:16	l_partkey:4	
+l_extendedprice:16	l_discount:16	n_name:25	s_nationkey:4	l_suppkey:4	o_orderdate:3	o_custkey:4	c_nationkey:4	o_comment:79	
+r_name:25	n_regionkey:4	p_type:25	s_phone:15	s_address:40	s_name:25	l_shipdate:3	o_shippriority:4	c_mktsegment:10	
+l_returnflag:1	c_name:25	c_acctbal:16	c_phone:15	c_comment:117	c_address:40	o_totalprice:16	

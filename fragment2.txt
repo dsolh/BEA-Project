@@ -1,0 +1,5 @@
+s_acctbal	s_comment	p_mfgr	ps_supplycost	ps_availqty	o_orderstatus	l_receiptdate	l_commitdate	o_orderpriority	l_tax   l_linestatus
+l_shipinstruct	p_size	p_brand	p_container	l_shipmode	p_name	l_quantity	l_partkey
+l_extendedprice	l_discount	n_name	s_nationkey	l_suppkey	o_orderdate	o_custkey	c_nationkey o_comment
+r_name	n_regionkey	p_type	s_phone	s_address	s_name	l_shipdate  o_shippriority	c_mktsegment
+l_returnflag	c_name	c_acctbal	c_phone	c_comment	c_address   o_totalprice
